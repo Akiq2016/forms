@@ -1,0 +1,35 @@
+{
+  "name": "forms",
+  "version": "1.0.0",
+  "description": "base on Google Forms",
+  "main": "index.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akiq2016/forms.git"
+  },
+  "author": "Aki",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akiq2016/forms/issues"
+  },
+  "homepage": "https://github.com/Akiq2016/forms#readme",
+  "devDependencies": {
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
+    "babel-preset-latest": "^6.24.1",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-json": "^2.1.1",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-watch": "^3.2.2"
+  },
+  "dependencies": {
+    "axios": "^0.16.1",
+    "ramda": "^0.23.0"
+  }
+}

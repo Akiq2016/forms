@@ -4,6 +4,7 @@
   "description": "base on Google Forms",
   "main": "index.js",
   "scripts": {
+    "test": "jest --no-cache",
     "build": "rollup -c",
     "watch": "rollup -c -w"
   },
@@ -18,10 +19,14 @@
   },
   "homepage": "https://github.com/Akiq2016/forms#readme",
   "devDependencies": {
+    "babel-jest": "^20.0.3",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-es2015-rollup": "^3.0.0",
     "babel-preset-latest": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "jest": "^20.0.3",
     "rollup": "^0.41.6",
+    "rollup-plugin-alias": "^1.3.1",
     "rollup-plugin-babel": "^2.7.1",
     "rollup-plugin-commonjs": "^8.0.2",
     "rollup-plugin-json": "^2.1.1",
@@ -30,6 +35,15 @@
   },
   "dependencies": {
     "axios": "^0.16.1",
+    "babel-polyfill": "^6.23.0",
     "ramda": "^0.23.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    },
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

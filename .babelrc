@@ -1,0 +1,15 @@
+{
+  "presets": [
+    ["es2015"]    
+  ],
+  "plugins": ["external-helpers"],
+  "env": {
+    "test": {
+      "presets": [
+        ["es2015"],
+        "stage-0"
+      ],
+      "plugins": ["external-helpers"]
+    }
+  }
+}

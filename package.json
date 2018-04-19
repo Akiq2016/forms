@@ -4,7 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --mode development --config build/webpack.base.js"
+    "dev": "webpack-dev-server --mode development --config build/webpack.base.js",
+    "preversion": "echo 1",
+    "version": "echo 2",
+    "postversion": "echo 3 && git push && git push --tags"
   },
   "repository": {
     "type": "git",

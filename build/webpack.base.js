@@ -33,7 +33,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: path.join(__dirname, "src/index.html") }),
+    new HtmlWebpackPlugin({ template: path.join(__dirname, "../src/index.html") }),
     new ExtractTextPlugin('style.css'),
     new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()

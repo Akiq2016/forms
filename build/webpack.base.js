@@ -42,7 +42,8 @@ module.exports = {
     contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 5555,
-    hot: true
+    hot: true,
+    open: true,
   },
   devtool: 'eval-source-map',
 }

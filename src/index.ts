@@ -3,7 +3,6 @@ import './index.scss'
 class DraggableItem extends HTMLElement {
   // todo: add a draggable = false wrapper
 }
-customElements.define('draggable-item', DraggableItem)
 
 class DraggableWrapper extends HTMLElement {
 
@@ -14,11 +13,17 @@ class DraggableWrapper extends HTMLElement {
     super()
 
     // Setup a drag related listeners on <draggable-wrapper> itself.
-    this.addEventListener('dragstart', ({ target }): void => {
+    this.addEventListener('dragstart', ({ target, dataTransfer }): void => {
       if (!(target instanceof DraggableItem)) return
+
+      // todo
+      dataTransfer.effectAllowed = "move"
 
       this.draggingItem = target
       this.oldPositionIndex = this.getItemIndexInList(target)
+
+      this.draggingItem.style.cssText = 'opacity: 0.5; cursor: move'
+
     }, false)
 
     this.addEventListener('dragenter', ({ target }): void => {
@@ -45,6 +50,7 @@ class DraggableWrapper extends HTMLElement {
     }, false)
 
     this.addEventListener('dragend', (e): void => {
+      this.draggingItem.style.cssText = ''
     }, false)
 
   }
@@ -53,9 +59,7 @@ class DraggableWrapper extends HTMLElement {
     return Array.from(this.querySelectorAll('draggable-item'))
       .findIndex(v => v === item)
   }
-
-  getListLength (): number {
-    return Array.from(this.querySelectorAll('draggable-item')).length
-  }
 }
+
+customElements.define('draggable-item', DraggableItem)
 customElements.define('draggable-wrapper', DraggableWrapper)

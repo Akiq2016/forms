@@ -10,6 +10,15 @@ draggable-item {
   margin: 5px;
   padding: 20px;
   background-color: #fff;
+  &::after {
+    position: absolute;
+    height: 20px;
+    top: 0;
+    left: 0;
+    right: 0;
+    content: '';
+    cursor: move;
+  }
   &:hover {
     &::before {
       position: absolute;
@@ -22,15 +31,6 @@ draggable-item {
       color: #666;
       border-style: solid;
       border-width: 1px 0;
-    }
-    &::after {
-      position: absolute;
-      height: 20px;
-      top: 0;
-      left: 0;
-      right: 0;
-      content: '';
-      cursor: all-scroll;
     }
   }
 }

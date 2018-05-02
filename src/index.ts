@@ -16,14 +16,11 @@ class DraggableWrapper extends HTMLElement {
     this.addEventListener('dragstart', ({ target, dataTransfer }): void => {
       if (!(target instanceof DraggableItem)) return
 
-      // todo
-      dataTransfer.effectAllowed = "move"
-
       this.draggingItem = target
       this.oldPositionIndex = this.getItemIndexInList(target)
 
-      this.draggingItem.style.cssText = 'opacity: 0.5; cursor: move'
-
+      target.style.cssText = 'opacity: 0.5'
+      dataTransfer.effectAllowed = 'move'
     }, false)
 
     this.addEventListener('dragenter', ({ target }): void => {
@@ -46,15 +43,11 @@ class DraggableWrapper extends HTMLElement {
       this.oldPositionIndex = newDragIndex
     }, false)
 
-    this.addEventListener('dragleave', ({ target }): void => {
-    }, false)
-
     this.addEventListener('dragend', (e): void => {
       this.draggingItem.style.cssText = ''
     }, false)
-
   }
-  
+
   getItemIndexInList (item: DraggableItem): number {
     return Array.from(this.querySelectorAll('draggable-item'))
       .findIndex(v => v === item)
@@ -63,3 +56,9 @@ class DraggableWrapper extends HTMLElement {
 
 customElements.define('draggable-item', DraggableItem)
 customElements.define('draggable-wrapper', DraggableWrapper)
+
+document.addEventListener("dragover", e => {
+  // default action: reset the current drag operation to "none".
+  // so prevent default to allow drop
+  e.preventDefault()
+}, false)

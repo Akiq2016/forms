@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --config build/webpack.base.js",
-    "build": "webpack --mode production --config build/webpack.base.js"
+    "start": "set NODE_ENV=development && webpack-dev-server --config build/webpack.base.js",
+    "build": "set NODE_ENV=production && webpack --config build/webpack.base.js"
   },
   "repository": {
     "type": "git",

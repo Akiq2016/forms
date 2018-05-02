@@ -31,21 +31,9 @@ class DraggableWrapper extends HTMLElement {
       const newDragIndex = this.getItemIndexInList(target)
       if (newDragIndex === this.oldPositionIndex) return
 
-      // todo
       if (newDragIndex < this.oldPositionIndex) {
         this.insertBefore(this.draggingItem, target)
-        this.oldPositionIndex = newDragIndex
-      }
-
-    }, false)
-
-    this.addEventListener('dragleave', ({ target }): void => {
-      if (!(target instanceof DraggableItem)) return
-
-      const newDragIndex = this.getItemIndexInList(target)
-      if (newDragIndex === this.oldPositionIndex) return
-
-      if (newDragIndex > this.oldPositionIndex) {
+      } else if (newDragIndex > this.oldPositionIndex) {
         target.nextElementSibling
           ? this.insertBefore(this.draggingItem, target.nextElementSibling)
           : this.appendChild(this.draggingItem)
@@ -53,8 +41,10 @@ class DraggableWrapper extends HTMLElement {
       this.oldPositionIndex = newDragIndex
     }, false)
 
-    this.addEventListener('dragend', (e): void => {
+    this.addEventListener('dragleave', ({ target }): void => {
+    }, false)
 
+    this.addEventListener('dragend', (e): void => {
     }, false)
 
   }
@@ -62,6 +52,10 @@ class DraggableWrapper extends HTMLElement {
   getItemIndexInList (item: DraggableItem): number {
     return Array.from(this.querySelectorAll('draggable-item'))
       .findIndex(v => v === item)
+  }
+
+  getListLength (): number {
+    return Array.from(this.querySelectorAll('draggable-item')).length
   }
 }
 customElements.define('draggable-wrapper', DraggableWrapper)

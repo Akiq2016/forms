@@ -16,6 +16,7 @@ class DraggableWrapper extends HTMLElement {
 
     // Setup a drag related listeners on <draggable-wrapper> itself.
     this.addEventListener('dragstart', ({ target, clientX, clientY }): void => {
+      console.log('dragstart', target)
       if (!(target instanceof DraggableItem)) return
 
       // init
@@ -25,9 +26,11 @@ class DraggableWrapper extends HTMLElement {
 
       // setup a dragging copy item
       this.draggingCopyItem = this.generateCopyItem({item: target, clientX, clientY})
+      console.log(this.draggingCopyItem)
     }, false)
 
     this.addEventListener('dragenter', ({ target }): void => {
+      console.log('dragenter', target)
       if (!(target instanceof DraggableItem)) return
 
       // As a draggable item might have several blocks inside.
@@ -48,18 +51,21 @@ class DraggableWrapper extends HTMLElement {
     }, false)
 
     this.addEventListener('dragend', (e): void => {
+      console.log('dragend', e.target)
       this.draggingItem.style.cssText = ''
       this.removeChild(this.draggingCopyItem)
     }, false)
 
     this.addEventListener("dragover", e => {
+      console.log('dragover', e.target)
       // default action: reset the current drag operation to "none".
       // so prevent default to allow drop
       e.preventDefault()
 
+      if (!(e.target instanceof DraggableItem)) return
+
       let { width, height } = this.MousePositionToCopyItemBorder
-      this.draggingCopyItem.style.transform = `translate(${e.clientX - width}px, ${e.clientY - height}px);`
-      console.log(`translate(${e.clientX - width}px, ${e.clientY - height}px);`)
+      this.draggingCopyItem.style.transform = `translate(${e.clientX - width}px, ${e.clientY - height}px)`
     }, false)
   }
 

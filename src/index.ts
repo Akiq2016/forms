@@ -15,9 +15,9 @@ class DraggableWrapper extends HTMLElement {
     super()
 
     // Setup a drag related listeners on <draggable-wrapper> itself.
-    this.addEventListener('dragstart', ({ target, clientX, clientY }): void => {
-      console.log('dragstart', target)
-      if (!(target instanceof DraggableItem)) return
+    this.addEventListener('drag', ({ target, clientX, clientY }): void => {
+      // console.log('dragstart', target)
+      if (!(target instanceof DraggableItem) || this.draggingCopyItem) return
 
       // init
       this.draggingItem = target
@@ -26,47 +26,49 @@ class DraggableWrapper extends HTMLElement {
 
       // setup a dragging copy item
       this.draggingCopyItem = this.generateCopyItem({item: target, clientX, clientY})
-      console.log(this.draggingCopyItem)
     }, false)
 
-    this.addEventListener('dragenter', ({ target }): void => {
-      console.log('dragenter', target)
-      if (!(target instanceof DraggableItem)) return
+    this.addEventListener('dragover', (e): void => {
+      // console.log('dragover', e.target)
+      if (!(e.target instanceof DraggableItem) || !e.target.draggable) return
 
       // As a draggable item might have several blocks inside.
       // when it go in-out these blocks,
       // the draggable item's related events invoked.
       // So if is the same id, it still in itself.
-      const newDragIndex = this.getItemIndexInList(target)
+      this.draggingCopyItem.style.transform = `translate(${e.clientX - e.offsetX}px, ${e.clientY}px)`
+
+      const newDragIndex = this.getItemIndexInList(e.target)
       if (newDragIndex === this.oldPositionIndex) return
 
       if (newDragIndex < this.oldPositionIndex) {
-        this.insertBefore(this.draggingItem, target)
+        this.insertBefore(this.draggingItem, e.target)
       } else if (newDragIndex > this.oldPositionIndex) {
-        target.nextElementSibling
-          ? this.insertBefore(this.draggingItem, target.nextElementSibling)
+        e.target.nextElementSibling
+          ? this.insertBefore(this.draggingItem, e.target.nextElementSibling)
           : this.appendChild(this.draggingItem)
       }
       this.oldPositionIndex = newDragIndex
     }, false)
 
     this.addEventListener('dragend', (e): void => {
-      console.log('dragend', e.target)
+      // console.log('dragend', e.target)
       this.draggingItem.style.cssText = ''
       this.removeChild(this.draggingCopyItem)
+      this.draggingCopyItem = null
     }, false)
 
-    this.addEventListener("dragover", e => {
-      console.log('dragover', e.target)
-      // default action: reset the current drag operation to "none".
-      // so prevent default to allow drop
-      e.preventDefault()
+    // this.addEventListener('dragover', e => {
+    //   // console.log('dragover', e.target)
+    //   // default action: reset the current drag operation to "none".
+    //   // so prevent default to allow drop
+    //   e.preventDefault()
 
-      if (!(e.target instanceof DraggableItem)) return
+    //   if (!(e.target instanceof DraggableItem)) return
 
-      let { width, height } = this.MousePositionToCopyItemBorder
-      this.draggingCopyItem.style.transform = `translate(${e.clientX - width}px, ${e.clientY - height}px)`
-    }, false)
+    //   let { width, height } = this.MousePositionToCopyItemBorder
+    //   this.draggingCopyItem.style.transform = `translate(${e.clientX - width}px, ${e.clientY - height}px)`
+    // }, false)
   }
 
   getItemIndexInList(item: DraggableItem): number {
@@ -83,7 +85,8 @@ class DraggableWrapper extends HTMLElement {
       height: clientY - top
     }
 
-    copyItem.dataset.dragId = "COPY_1"
+    copyItem.dataset.dragId = 'COPY_1'
+    copyItem.draggable = false
     copyItem.style.cssText = `
       position: fixed;
       top: 0;
@@ -96,7 +99,9 @@ class DraggableWrapper extends HTMLElement {
       background-color: #f00;
     `
 
-    return this.appendChild(copyItem)
+    this.appendChild(copyItem)
+
+    return copyItem
   }
 }
 
